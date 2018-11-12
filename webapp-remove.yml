@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    group: table6mawebapprg
+    webapp_name: table6mawebapp
+    location: southindia
+  tasks:
+  - name: Create resource group
+    azure_rm_resourcegroup:
+      name: "{{ group  }}"
+      state: absent
+      force: true
