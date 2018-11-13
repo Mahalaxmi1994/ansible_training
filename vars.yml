@@ -1,0 +1,6 @@
+prefix: table6ma
+group_name: "{{prefix}}vmrg"
+vnet: "{{prefix}}vnet"
+nsg_name: "{{prefix}}nsg"
+subnet_name: "{{prefix}}subnet"
+nic_name: "{{prefix}}nic"
