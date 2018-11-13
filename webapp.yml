@@ -16,7 +16,7 @@
       name: "{{ webapp_name }}"
       plan:
         resource_group: "{{ group }}"
-        name: table6maplan
+        name: table6maappplan
         is_linux: true
         sku: S1
         number_of_workers: 1

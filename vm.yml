@@ -1,35 +1,37 @@
 - name: Create  VM
   hosts: localhost
   connection: local
+  vars_files:
+    - vars.yml
   tasks:
   - name: Create resource group
     azure_rm_resourcegroup:
-      name: table6mavmrg
+      name: "{{group_name}}"
       location: southindia
   - name: Create virtual network
     azure_rm_virtualnetwork:
-      resource_group: table6mavmrg
-      name: table6mavnet
+      resource_group: "{{group_name}}"
+      name: "{{vnet}}"
       address_prefixes: "10.0.0.0/16"
   - name: Add subnet
     azure_rm_subnet:
-      resource_group: table6mavmrg
-      name: table6masubnet
+      resource_group: "{{group_name}}"
+      name: "{{subnet_name}}"
       address_prefix: "10.0.1.0/24"
-      virtual_network: table6mavnet
+      virtual_network: "{{vnet}}"
   - name: Create public IP address
     azure_rm_publicipaddress:
-      resource_group: table6mavmrg
+      resource_group: "{{group_name}}"
       allocation_method: Static
-      name: table6mapulicip
+      name: table6mapublicip
     register: output_ip_address
   - name: Output public IP 
     debug:
       msg: "Public IP is {{ output_ip_address.state.ip_address }}."
   - name: Create Network Security Group that allows SSH
     azure_rm_securitygroup:
-      resource_group: table6mavmrg
-      name: table6mansg
+      resource_group: "{{group_name}}"
+      name: "{{nsg_name}}"
       rules:
         - name: SSH
           protocol: Tcp
@@ -39,15 +41,15 @@
           direction: Inbound
   - name: Create virtual network inteface card
     azure_rm_networkinterface:
-      resource_group: table6mavmrg
-      name: table6manic
-      virtual_network: table6mavnet
-      subnet: table6masubnet
+      resource_group: "{{group_name}}"
+      name: "{{nic_name}}"
+      virtual_network: "{{vnet}}"
+      subnet: "{{subnet_name}}"
       public_ip_name: table6mapublicip
-      security_group: table6mansg
+      security_group: "{{nsg_name}}"
   - name: Create VM
     azure_rm_virtualmachine:
-      resource_group: table6mavmrg
+      resource_group: "{{group_name}}"
       name: table6mavm
       vm_size: Standard_DS1_v2
       admin_username: azureops
