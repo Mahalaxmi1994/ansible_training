@@ -1,4 +1,4 @@
-- hosts: azure #hosts from the inventory
+- hosts: azure  #hosts from the inventory file named hosts(azure or web)
   tasks: 
     - name: Installs apache web server
       apt: 
