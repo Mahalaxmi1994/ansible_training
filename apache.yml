@@ -1,14 +1,14 @@
-- hosts: azure
-  tasks: 
+- hosts: web
+  tasks:
     - name: Installs apache web server
-      apt: 
+      apt:
         pkg: "{{item}}"
         state: latest
         update_cache: true
       with_items:
-        - apache2
-        - libapache2-mod-php
-        - git
+       - apache2
+       - libapache2-mod-php
+       - git
       become: true
     - name: Push default virtual host configuration
       copy:
@@ -18,7 +18,7 @@
       become: true
     - name: Disable the default virtualhost
       file:
-        dest: /etc/apache2/sites-enabled/default
+        dest: /etc/apache2/sites-enabled/000-default
         state: absent
       notify:
         - restart apache
@@ -29,7 +29,7 @@
         state: absent
       notify:
         - restart apache
-      become: true 
+      become: true
     - name: Activates our virtualhost
       file:
         src: /etc/apache2/sites-available/awesome-app
