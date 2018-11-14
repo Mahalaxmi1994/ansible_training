@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: ARM deploy
+      azure_rm_deployment:
+        state: present
+        location: southindia
+        resource_group_name: table6mawebapp1rg
+        template_link: 'https://raw.githubusercontent.com/Mahalaxmi1994/arm/master/template.json'
+        parameters_link: 'https://raw.githubusercontent.com/Mahalaxmi1994/arm/master/parameters.json'
